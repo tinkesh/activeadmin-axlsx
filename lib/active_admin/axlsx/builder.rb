@@ -112,6 +112,7 @@ module ActiveAdmin
       # Serializes the collection provided
       # @return [Axlsx::Package]
       def serialize(collection)
+        reset_sheet
         apply_filter @before_filter
         export_collection(collection)
         apply_filter @after_filter
@@ -171,6 +172,10 @@ module ActiveAdmin
       # @return [Array]
       def header_row
         sheet.add_row columns.map { |column| column.localized_name(i18n_scope) }, :style => header_style_id
+      end
+
+      def reset_sheet
+        @package, @sheet = nil
       end
 
       def header_style_id
